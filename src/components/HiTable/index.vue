@@ -133,7 +133,7 @@ export default {
                 //表格相关参数 s
                 hasCheckbox:false,
                 loading:false,
-                border: false,//是否带有丛向边框 boolean 默认false
+                border: false,//是否带有纵向边框 boolean 默认false
                 stripe: false,//是否为斑马纹table boolean 默认false
                 highLightCurrentRow: false,//是否高亮当前行 boolean 默认false
                 //表格相关参数 e
