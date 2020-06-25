@@ -3,9 +3,10 @@ import Vue from 'vue'
 import ElementUI from 'element-ui'
 //注意：样式需要单独引入哦
 import 'element-ui/lib/theme-chalk/index.css'
+import './styles/index.less'
 import App from './App.vue'
 
-Vue.use(ElementUI)
+Vue.use(ElementUI,{size:'small'})
 
 Vue.config.productionTip = false
 

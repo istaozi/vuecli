@@ -1,108 +1,178 @@
+<!--封装表格的使用-->
 <template>
     <div>
-        <p>普通表格</p>
-        <!--未经封装的table s-->
-        <el-table :data="tableData" border>
-            <el-table-column type="index" width="50"></el-table-column>
-            <el-table-column prop="skill" label="技能点"></el-table-column>
-            <el-table-column prop="level" label="等级"></el-table-column>
-            <el-table-column label="操作列">
-                <template v-slot="scope">
-                    <el-button @click="handleClick(scope.row,'view')" type="text" size="small">查看</el-button>
-                    <el-button @click="handleClick(scope.row,'edite')" type="text" size="small">编辑</el-button>
-                    <el-button @click="handleClick(scope.row,'delete')" type="text" size="small">删除</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-        <!--未经封装的table e-->
-
-        <p>封装1.0后的表格</p>
-        <!--封装后的table s-->
-        <table01xx :tableColumnConfig="tableColumn" @handleClick="handleClick" v-on="$listeners"></table01xx>
-        <!--封装后的table e-->
-
-        <p>封装2.0后的表格</p>
-        <!--封装后的table s-->
-        <table01xx2 :tableColumnConfig="tableColumn2" :tableData="tableData" @handleClick="handleClick" v-on="$listeners"></table01xx2>
-        <!--封装后的table e-->
+        <hi-table :columns="tableHeader" :data="tableData" :operates="operateColumn"
+                   :tableConfig="tableConfig" @handleSelectionChange="handleSelectionChange">
+            <!--v-slot简写为：#-->
+            <!--obj:写成obj为了告知此处接受的是一个对象，名字可随意命名，-->
+            <!--数据列：状态列个性化颜色-->
+            <template #exeStatus="obj">
+                <el-tag type="success" v-if="obj.value==='200'">{{obj.value}}</el-tag>
+                <el-tag v-else>{{obj.value}}</el-tag>
+            </template>
+            <!--操作列：按钮个性化定制-->
+            <template #operatesBtn="obj">
+                 {{obj.value}}
+            </template>
+        </hi-table>
     </div>
 
 </template>
 
 <script>
-
-import table01xx from "./table01xx";
-import table01xx2 from "./table01xx2";
-
+import HiTable from "../components/HiTable/index";
 export default {
     name: "table01",
     components: {
-        table01xx,
-        table01xx2
+       HiTable
     },
     methods: {
-        handleClick(row, mark) {
-            switch (mark) {
-                case 'view':
-                    console.log(`view`)
-                    break;
-                case 'edite':
-                    console.log(`edite`)
-                    break;
-                default:
-                    console.log(`delete`)
-                    break;
-            }
-
+        /**
+         * @description 查看
+         * @param {Object}  row 当前行的数据
+         * */
+        viewRowData(row) {
+            this.$message(JSON.stringify(row, null, 2))
+        },
+        /**
+         * @description 编辑
+         * @param {Object}  row 当前行的数据
+         * */
+        eidteRowData(row) {
+            this.$message(`${JSON.stringify(row, null, 2)}`)
+        },
+        /**
+         * @description 删除
+         * @param {Object}  row 当前行的数据
+         * */
+        deleteRowData(row) {
+            this.$message(`${JSON.stringify(row, null, 2)}`)
+        },
+        /**
+         * @description checkbox选择项发生变化时会触发该事件
+         * */
+        handleSelectionChange(val) {
+            this.$message(`${JSON.stringify(val, null, 2)}`)
         }
     },
     data() {
         return {
+            //表格的配置信息
+            tableConfig:{
+                hasCheckbox:false,
+                loading:false,
+            },
+            //表头-数据列
+            tableHeader: [
+                {
+                    prop: 'name',//对应字段名
+                    label: '项目名称',//列名
+                },
+                {
+                    prop: 'code',//对应字段名
+                    label: '项目简称',//列名
+                    width: '100'
+                },
+                {
+                    prop: 'status',//对应字段名
+                    label: '项目状态',//列名
+                },
+                {
+                    prop: 'exeStatus',//对应字段名
+                    label: '项目执行状态',//列名
+                    customized: true,
+                },
+                {
+                    prop: 'desc1',//对应字段名
+                    label: '描述1',//列名
+                },
+                {
+                    prop: 'desc2',//对应字段名
+                    label: '描述2',//列名
+                },
+                {
+                    prop: 'desc3',//对应字段名
+                    label: '描述3',//列名
+                },
+                {
+                    prop: 'desc4',//对应字段名
+                    label: '描述4',//列名
+                },
+                {
+                    prop: 'desc5',//对应字段名
+                    label: '描述5',//列名
+                    show: false,
+                },
+
+            ],
+            //操作列
+            operateColumn: {
+                label: '操作',
+                align:'center',
+                //列相关的默认参数
+                tooltip: true,//内容过长显示省略号
+                width: '200',//对应列宽
+                fixed: true,//固定列位置，默认值是true 相当于left（ true left right ）
+
+                //customized:true,//个性化 必须需配合prop属性才起作用
+                //prop:'operatesBtn', //个性化 必须需配合customized属性才起作用
+                //操作列的按钮特有 s
+                show: true,
+                //操作列的按钮特有 e
+                btns: [
+                    {
+                        label: '查看',
+                        show: true,
+                        method: (row) => {
+                            this.viewRowData(row)
+                        }
+                    },
+                    {
+                        label: '编辑',
+                        disabled: true,
+                        method: (row) => {
+                            this.eidteRowData(row)
+                        }
+                    }, {
+                        label: '删除',
+                        disabled: true,
+                        method: (row) => {
+                            this.deleteRowData(row)
+                        }
+                    },
+                ]
+            },
             //表格数据源
             tableData: [
                 {
-                    id: 11,
-                    skill: 'vue',
-                    level: 5,
+                    name: '智能资讯推送管理平台',
+                    code: '资讯平台',
+                    status: '1',
+                    exeStatus: '100',
+                    desc1: 'desc1设置舆情规则-1.新闻舆情：公告、新闻媒体、正面、负面、一般负面...，2.风险事件：债券违约、股权冻结、异常运营、严重违法、行政处罚...，3.工商变更：股权变更、负责人变更、注册资本变更、高管变更...',
+                    desc2: 'desc2设置舆情规则-1.新闻舆情：公告、新闻媒体、正面、负面、一般负面...，2.风险事件：债券违约、股权冻结、异常运营、严重违法、行政处罚...，3.工商变更：股权变更、负责人变更、注册资本变更、高管变更...',
+                    desc3: 'desc3设置舆情规则-1.新闻舆情：公告、新闻媒体、正面、负面、一般负面...，2.风险事件：债券违约、股权冻结、异常运营、严重违法、行政处罚...，3.工商变更：股权变更、负责人变更、注册资本变更、高管变更...',
+                    desc4: 'desc4设置舆情规则-1.新闻舆情：公告、新闻媒体、正面、负面、一般负面...，2.风险事件：债券违约、股权冻结、异常运营、严重违法、行政处罚...，3.工商变更：股权变更、负责人变更、注册资本变更、高管变更...',
+                    desc5: 'desc5设置舆情规则-1.新闻舆情：公告、新闻媒体、正面、负面、一般负面...，2.风险事件：债券违约、股权冻结、异常运营、严重违法、行政处罚...，3.工商变更：股权变更、负责人变更、注册资本变更、高管变更...',
+
                 },
                 {
-                    id: 22,
-                    skill: 'react',
-                    level: 5,
+                    name: '智能资讯推送管理平台',
+                    code: '资讯平台',
+                    status: '2',
+                    exeStatus: '200',
+                    desc1: 'desc1设置舆情规则-1.新闻舆情：公告、新闻媒体、正面、负面、一般负面...，2.风险事件：债券违约、股权冻结、异常运营、严重违法、行政处罚...，3.工商变更：股权变更、负责人变更、注册资本变更、高管变更...',
+                    desc2: 'desc2设置舆情规则-1.新闻舆情：公告、新闻媒体、正面、负面、一般负面...，2.风险事件：债券违约、股权冻结、异常运营、严重违法、行政处罚...，3.工商变更：股权变更、负责人变更、注册资本变更、高管变更...',
+                    desc3: 'desc3设置舆情规则-1.新闻舆情：公告、新闻媒体、正面、负面、一般负面...，2.风险事件：债券违约、股权冻结、异常运营、严重违法、行政处罚...，3.工商变更：股权变更、负责人变更、注册资本变更、高管变更...',
+                    desc4: 'desc4设置舆情规则-1.新闻舆情：公告、新闻媒体、正面、负面、一般负面...，2.风险事件：债券违约、股权冻结、异常运营、严重违法、行政处罚...，3.工商变更：股权变更、负责人变更、注册资本变更、高管变更...',
+                    desc5: 'desc5设置舆情规则-1.新闻舆情：公告、新闻媒体、正面、负面、一般负面...，2.风险事件：债券违约、股权冻结、异常运营、严重违法、行政处罚...，3.工商变更：股权变更、负责人变更、注册资本变更、高管变更...',
                 },
             ],
-            //配置表格列参数
-            tableColumn: {
-                skill: '技能点',
-                level: '等级',
-                handler: {
-                    label: '操作',
-                    view: true,
-                    edite: true,
-                    delete: true,
-                },
-            },
-            //配置表格列参数
-            tableColumn2: {
-                columns:{
-                    skill: '技能点',
-                    level: '等级',
-                    handler: {
-                        label: '操作',
-                        view: true,
-                        edite: true,
-                        delete: true,
-                    },
-                },
-                //全选功能默认为false
-                selection:true,
 
-            },
         }
     },
 }
 </script>
 
 <style scoped>
-
 </style>

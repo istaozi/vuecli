@@ -1,15 +1,21 @@
 <template>
   <div id="app">
-    <table01></table01>
+   <!-- <HelloWorld msg="Hi Vue"/>
+    <table01></table01>-->
+    <tablePage></tablePage>
   </div>
 </template>
 
-<script>
-import table01 from "./demo/table01";
+<script>/*
+import HelloWorld from './components/HelloWorld.vue'
+import table01 from "./demo/table01.vue";*/
+import tablePage from "./demo/tablePage.vue";
 export default {
   name: 'App',
   components: {
-    table01,
+    /*HelloWorld,
+    table01,*/
+    tablePage
   }
 }
 </script>
@@ -20,7 +26,5 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
