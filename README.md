@@ -1,6 +1,15 @@
 
-#### HiTable
-##### 表格相关参数
+#### HiTable 主要包含下面四个参数
+
+| 参数   | 说明  |类型 |可选值 |默认值 |
+| :----| :---- | :---- | :---- |:---- |
+| tableConfig | 表格相关设置 | Object |— |—  | 
+| columns | 表格数据列 | Array | — |—  |
+| data | 表格数据| Array |— |—  |
+| operates | 表格操作列 | Object |— |—  |
+
+
+##### tableConfig相关属性
 | 参数   | 说明  |类型 |可选值 |默认值 |
 | :----| :---- | :---- | :---- |:---- |
 | hasCheckbox | 单元格 | boolean | — |false |
@@ -9,7 +18,7 @@
 | stripe | 是否为斑马纹table | boolean |— |false |
 | highLightCurrentRow | 是否高亮当前行 | boolean |— |false | 
 
-##### 列相关参数
+##### columns列 operates列相关属性
 | 参数   | 说明  |类型 |可选值 |默认值 |
 | :----| :---- | :---- | :---- |:---- |
 | label | 显示的标题 | string | — |— |
