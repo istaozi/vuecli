@@ -3,7 +3,7 @@
     <div style="text-align: left">
         <!--查询条件-->
         <div class="conditionWrapp">
-            <el-form :inline="true" :model="formInline" class="demo-form-inline" ref="searchFormRef" >
+            <el-form :inline="true" :model="formInline" class="demo-form-inline" ref="searchFormRef">
                 <el-form-item label="审批人">
                     <el-input v-model="formInline.user" placeholder="审批人"></el-input>
                 </el-form-item>
@@ -33,14 +33,15 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit">查询</el-button>
-                    <el-button  @click="resetFormx('searchFormRef')">重置</el-button>
+                    <el-button @click="resetFormx('searchFormRef')">重置</el-button>
                 </el-form-item>
             </el-form>
         </div>
         <!--操作-->
         <el-row class="handleRowWrapp">
             <el-col :span="12">
-                <el-button type="primary">模板导人</el-button>
+                <!--<el-button type="primary">模板导人</el-button>-->
+
                 <el-button>下载模版</el-button>
             </el-col>
             <el-col :span="12" style="text-align: right">
@@ -88,7 +89,8 @@ export default {
         Pagination
     },
     methods: {
-        resetFormx(){},
+        resetFormx() {
+        },
         onSubmit() {
             // eslint-disable-next-line no-debugger
             debugger;

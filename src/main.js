@@ -6,10 +6,21 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './styles/index.less'
 import App from './App.vue'
 
-Vue.use(ElementUI,{size:'small'})
 
+Vue.use(ElementUI, {size: 'small'})
 Vue.config.productionTip = false
 
+
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+    el: '#app',
+    render: h => h(App),
+})//.$mount('#app')
+
+
+Vue.prototype.resetFormx = function (formRef) {
+    const form = Vue.$refs[formRef]
+    this.$nextTick(() => {
+        form.resetFields()
+    })
+
+}
