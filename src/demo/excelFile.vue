@@ -125,9 +125,10 @@ export default {
             const fromTo = firstWorkSheet['!ref'];// A1:B5
 
             let excelHeader=[]
-            //const char=fromTo.split(':')[0].substring(0,1)
-            const num=fromTo.split(':')[1].substring(1)
-            for(let i=0;i<=num;i++){
+            const char=fromTo.split(':')[1].substring(0,1)
+            const charInd="ABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(char)
+            //const num=fromTo.split(':')[1].substring(1)
+            for(let i=0;i<=charInd;i++){
                const code= String.fromCharCode(65+i)
                 //获取指定A1的cell数据
                 const cellV=firstWorkSheet[code+1]&&firstWorkSheet[code+1].h
