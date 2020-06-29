@@ -50,8 +50,17 @@
         </el-row>
 
         <!--表格-->
-        <hi-table :columns="tableHeader" :data="tableData" :operates="operateColumn"
-                  :tableConfig="tableConfig" @handleSelectionChange="handleSelectionChange">
+        <hi-table 
+            :columns="tableHeader"
+              :data="tableData"
+              :operates="operateColumn"
+              :loading="false"
+              :border="false"
+              :stripe="true"
+              :highlight-current-row="true"
+              :checkbox="true"
+              @handleSelectionChange="handleSelectionChange"
+        >
             <!--v-slot简写为：#-->
             <!--obj:写成obj为了告知此处接受的是一个对象，名字可随意命名，-->
             <!--数据列：状态列个性化颜色-->
@@ -131,12 +140,7 @@ export default {
 
     },
     data() {
-        return {
-            //表格的配置信息
-            tableConfig: {
-                hasCheckbox: true,
-                loading: false,
-            },
+        return { 
             //表头-数据列
             tableHeader: [
                 {
@@ -187,13 +191,10 @@ export default {
                 //列相关的默认参数
                 tooltip: true,//内容过长显示省略号
                 width: '200',//对应列宽
-                fixed: true,//固定列位置，默认值是true 相当于left（ true left right ）
-
-                //customized:true,//个性化 必须需配合prop属性才起作用
+                fixed: true,//固定列位置，默认值是true 相当于left（ true left right ） 
                 //prop:'operatesBtn', //个性化 必须需配合customized属性才起作用
-                //操作列的按钮特有 s
-                show: true,
-                //操作列的按钮特有 e
+                //show: false,
+           
                 btns: [
                     {
                         label: '查看',
