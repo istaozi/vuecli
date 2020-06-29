@@ -42,12 +42,12 @@
                         :width="operates.width || defaultOptions.width"
                         :align="operates.align || defaultOptions.align">
                     <template v-slot="scope">
-                        <!--是否需要个性化判断 operates.customized&&-->
-                        <template v-if="(hasOwnProp(operates,'prop'))">
+                        <!--是否需要个性化判断 operates.customized&&
+                        <template v-if="(hasOwnProp(operates,'prop'))"> </template>
+                        <template v-else>  </template>-->
                             <!--按钮个性化的时候将当前行数据传递出去-->
-                            <slot :name="operates.prop" :value="scope.row"></slot>
-                        </template>
-                        <template v-else>
+                            <slot :name="operates.prop" :value="scope.row">
+                 
                             <template v-for="(operateColumn,index) in operates.btns">
                                 <el-button :key="index"
                                            v-if="!(hasOwnProp(operateColumn,'show')&&operateColumn.show===false)"
@@ -57,7 +57,7 @@
                                     {{operateColumn.label}}
                                 </el-button>
                             </template>
-                        </template>
+                      </slot>
                     </template>
                 </el-table-column>
             </template>
