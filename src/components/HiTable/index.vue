@@ -20,12 +20,13 @@
                             :show-overflow-tooltip="column.tooltip ||defaultOptions.tooltip">
                         <!-- 通过提供的默认插槽 拿到当前行的数据；-->
                         <template v-slot="scope">
-                            <!--是否需要个性化判断-->
-                            <template v-if="column.customized">
+                            <!--是否需要个性化判断
+                            <template v-if="column.customized">  </template>  <template v-else> {{scope.row[column.prop]}}</template>
+                            -->
                                 <!--将当前字段名作为插槽名称；通过行+列，匹配到具体值并利用属性prop将需要个性化处理的数据传递出去-->
-                                <slot :name="column.prop" :value="scope.row[column.prop]"></slot>
-                            </template>
-                            <template v-else> {{scope.row[column.prop]}}</template>
+                                <slot :name="column.prop" :value="scope.row[column.prop]">{{scope.row[column.prop]}}</slot>
+                           
+                           
                         </template>
                     </el-table-column>
                 </template>
@@ -41,8 +42,8 @@
                         :width="operates.width || defaultOptions.width"
                         :align="operates.align || defaultOptions.align">
                     <template v-slot="scope">
-                        <!--是否需要个性化判断-->
-                        <template v-if="operates.customized&&(hasOwnProp(operates,'prop'))">
+                        <!--是否需要个性化判断 operates.customized&&-->
+                        <template v-if="(hasOwnProp(operates,'prop'))">
                             <!--按钮个性化的时候将当前行数据传递出去-->
                             <slot :name="operates.prop" :value="scope.row"></slot>
                         </template>
