@@ -2,8 +2,9 @@
   <div id="app">
    <!-- <HelloWorld msg="Hi Vue"/>
     <table01></table01>
-    <tablePage></tablePage>-->
-      <excel-file></excel-file>
+    <tablePage></tablePage>
+      <excel-file></excel-file>-->
+      <hi-checkbox></hi-checkbox>
   </div>
 </template>
 
@@ -11,23 +12,21 @@
 import HelloWorld from './components/HelloWorld.vue'
 import table01 from "./demo/table01.vue";*/
 //import tablePage from "./demo/tablePage.vue";
-import excelFile from "./demo/excelFile.vue";
+//import excelFile from "./demo/excelFile.vue";
+import HiCheckbox from './components/HiCheckbox'
 export default {
   name: 'App',
   components: {
     /*HelloWorld,
     table01,
-    tablePage*/
-      excelFile
+    tablePage
+    excelFile*/
+      HiCheckbox
   }
 }
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
 }
 </style>
