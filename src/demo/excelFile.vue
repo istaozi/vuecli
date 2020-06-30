@@ -48,15 +48,15 @@
                            :auto-upload="false"
                            accept=".xlsx,.xls"
                            :show-file-list="false"
-                           :on-change="handleInportxlsxData"
+                           :on-change="importExcel"
                 >
                     <el-button type="primary">模板导人</el-button>
                 </el-upload>
-                <el-button>下载模版</el-button>
+                <el-button @click="exportExcel(false)" style="margin:9px 15px;">下载模版</el-button>
             </el-col>
             <el-col :span="12" style="text-align: right">
                 <el-button type="primary">新增</el-button>
-                <el-button type="primary" @click="exportExcel">导出</el-button>
+                <el-button type="primary" @click="exportExcel(true)">导出</el-button>
             </el-col>
         </el-row>
 
@@ -105,7 +105,7 @@ export default {
         /**
          *@description 导入表格数据到表
          * */
-        async handleInportxlsxData(event) {
+        async importExcel(event) {
             const file = event.raw;
             //如果文件不存在，直接return
             if (!file) return;
@@ -124,18 +124,18 @@ export default {
             //获取表头数据 s
             const fromTo = firstWorkSheet['!ref'];// A1:B5
 
-            let excelHeader=[]
-            const char=fromTo.split(':')[1].substring(0,1)
-            const charInd="ABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(char)
+            let excelHeader = []
+            const char = fromTo.split(':')[1].substring(0, 1)
+            const charInd = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".indexOf(char)
             //const num=fromTo.split(':')[1].substring(1)
-            for(let i=0;i<=charInd;i++){
-               const code= String.fromCharCode(65+i)
+            for (let i = 0; i <= charInd; i++) {
+                const code = String.fromCharCode(65 + i)
                 //获取指定A1的cell数据
-                const cellV=firstWorkSheet[code+1]&&firstWorkSheet[code+1].h
-                console.log("cellV:"+cellV)
+                const cellV = firstWorkSheet[code + 1] && firstWorkSheet[code + 1].h
+                console.log("cellV:" + cellV)
                 excelHeader.push(cellV)
             }
-            console.log("A1····A5 的数据"+excelHeader) //A1····A5 的数据
+            console.log("A1····A5 的数据" + excelHeader) //A1····A5 的数据
             //获取表头数据 e
 
             //表格模板的标准头部数据（跟定义的表格头一致）
@@ -143,12 +143,12 @@ export default {
                 return item.label
             })
             //对比表格的头是否模板一致
-            const result=headerM.every((item,indx)=>{
-                const temp= excelHeader[indx];
-                return temp===item
+            const result = headerM.every((item, indx) => {
+                const temp = excelHeader[indx];
+                return temp === item
             })
-            if(!result){
-                return   this.$message.error(`模板格式错误，请使用正确模板填写上传。`)
+            if (!result) {
+                return this.$message.error(`模板格式错误，请使用正确模板填写上传。`)
             }
             console.log('============')
 
@@ -159,23 +159,23 @@ export default {
 
             //将数据中的中文key变为字段名
             let arr = []
-          /*  data.map((item) => {
-                let obj = {}
-                this.tableHeader.map((headerItem) => {
-                    // eslint-disable-next-line no-prototype-builtins
-                    if ((headerItem.hasOwnProperty('required') && headerItem['required'] === true) && !(item[headerItem['label']])) {
-                        //this.$message.error(`第【${item.__rowNum__+1}行】 【${headerItem['label']}列】 数据有误，请修改后再次上传。`)
-                        this.$message.error(`第【${item.__rowNum__ + 1}行】数据有误，请修改后再次上传。`)
-                        return
-                    }
-                    obj[headerItem['prop']] = item[headerItem['label']]
+            /*  data.map((item) => {
+                  let obj = {}
+                  this.tableHeader.map((headerItem) => {
+                      // eslint-disable-next-line no-prototype-builtins
+                      if ((headerItem.hasOwnProperty('required') && headerItem['required'] === true) && !(item[headerItem['label']])) {
+                          //this.$message.error(`第【${item.__rowNum__+1}行】 【${headerItem['label']}列】 数据有误，请修改后再次上传。`)
+                          this.$message.error(`第【${item.__rowNum__ + 1}行】数据有误，请修改后再次上传。`)
+                          return
+                      }
+                      obj[headerItem['prop']] = item[headerItem['label']]
 
 
-                })
-                arr.push(obj)
-                console.table("arrr" + JSON.stringify(arr))
-                this.tableData = arr
-            })*/
+                  })
+                  arr.push(obj)
+                  console.table("arrr" + JSON.stringify(arr))
+                  this.tableData = arr
+              })*/
             for (let item of data) {
                 let obj = {}
                 for (let headerItem of this.tableHeader) {
@@ -199,14 +199,24 @@ export default {
         },
         /**
          * @description 导出数据
+         * @description arg [boolean] true 导出数据，false下载模板
          * */
-        exportExcel() {
-            const exportData = this.tableData
-            if (exportData.length === 0) {
-                return this.$message.error("目前表格没有数据不能导出");
+        exportExcel(arg) {
+            let exportData;
+            let excelName;
+            if (arg) {
+                exportData = this.tableData
+                excelName = '二级投资'
+                if (exportData.length === 0) {
+                    return this.$message.error("目前表格没有数据不能导出");
+                }
+            } else {
+                exportData = []
+                excelName = '二级投资模板'
             }
 
-            exportExcel(exportData, this.tableHeader, '二级投资')
+
+            exportExcel(exportData, this.tableHeader, excelName)
         },
         onSubmit() {
             // eslint-disable-next-line no-debugger
