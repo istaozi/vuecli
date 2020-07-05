@@ -200,17 +200,17 @@ export default {
                             this.checkedIds[this.firstArrayKey].push(parentObj.id)
                             this.firstCheckedIds.push(parentObj.id)
                         } else {
-                            if(this.firstCheckedIds.indexOf(parentObj.id)!=-1){
+                            if(this.firstCheckedIds.includes(parentObj.id)){
                                 this.firstCheckedIds.splice(this.firstCheckedIds.indexOf(parentObj.id), 1);
 
                             }
                         }
 
                     } else {
-                        if(this.checkedIds[this.firstArrayKey].indexOf(parentObj.id)!=-1){
+                        if(this.checkedIds[this.firstArrayKey].includes(parentObj.id)){
                             this.checkedIds[this.firstArrayKey].splice(this.checkedIds[this.firstArrayKey].indexOf(parentObj.id),1)
                         }
-                        if(this.firstCheckedIds.indexOf(parentObj.id)!=-1){
+                        if(this.firstCheckedIds.includes(parentObj.id)){
                             this.firstCheckedIds.splice(this.firstCheckedIds.indexOf(parentObj.id), 1);
                         }
                     }
